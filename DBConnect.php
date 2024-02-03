@@ -4,7 +4,7 @@
 // Copyright (c) 2024 legojrp. All rights reserved.
 // Licensed via MIT license. See LICENSE file in the project root for full license information.
 
-// Current version: v0.0.1
+// Current version: v0.1
 // February 2024
 // See https://github.com/legojrp/DB-Connect for more updated versions!!. 
 
