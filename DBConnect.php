@@ -4,7 +4,7 @@
 // Copyright (c) 2024 legojrp. All rights reserved.
 // Licensed via MIT license. See LICENSE file in the project root for full license information.
 
-// Current version: v0.1
+// Current version: v0.1.1
 // February 2024
 // See https://github.com/legojrp/DB-Connect for more updated versions!!. 
 
@@ -32,11 +32,30 @@ class DBConnect {
 
     private function __construct() {}
 
+    /**
+     * Create a new instance of DBConnect with the Credential object. Treat like constructor
+     *  
+     * @param Credential $credentials The credentials for the database.
+     * @return DBConnect The new instance of DBConnect.
+     * @throws Exception If the connection fails.
+     * @throws PDOException If an error occurs while executing the query.
+     *  
+     */
+
     public static function withCredential(Credential $credentials) {
         $self = new self();
         $self->construct($credentials);
         return $self;
     }
+    /**
+     * A static function that creates a new instance with the given, host, user, password, and database.
+     *
+     * @param string $host the host
+     * @param string $user the user
+     * @param string $password Password to the database
+     * @param string $database database name
+     * @return DBConnect The new instance of DBConnect.
+     */
     public static function withParams($host, $user, $password, $database) {
         $self = new self();
         $self->construct(new Credential($host, $user, $password, $database));
@@ -81,6 +100,15 @@ class DBConnect {
         return $result;
     }
 
+    /**
+     * Insert data into the specified table with the given columns, values, and condition.
+     *
+     * @param string $table The name of the table
+     * @param array $columns The columns to be inserted
+     * @param array $values The values to be inserted
+     * @param string $condition The condition to be applied in the WHERE clause
+     * @return array The inserted data
+     */
     public function insert($table, $columns, $values, $condition) {
 
         $sql = "INSERT INTO :table (:columns) VALUES (:values)";
@@ -98,6 +126,15 @@ class DBConnect {
         return $result;
     }
 
+    /**
+     * Update the specified table with the provided columns and values based on the given condition.
+     *
+     * @param string $table The name of the table to be updated
+     * @param array $columns The columns to be updated
+     * @param array $values The new values for the columns
+     * @param string $condition The condition for the update operation
+     * @return array The result of the update operation
+     */
     public function update($table, $columns, $values, $condition) { 
 
         $sql = "UPDATE :table SET :statements WHERE :condition";
@@ -118,6 +155,14 @@ class DBConnect {
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    /**
+     * Deletes data from the specified table based on the given condition.
+     *
+     * @param mixed $table The table name from which to delete the data.
+     * @param mixed $condition The condition for deleting the data.
+     * @throws PDOException If an error occurs while executing the query.
+     * @return array The result of fetching the deleted data.
+     */
     public function delete($table, $condition) {
 
         $sql = "DELETE FROM :table WHERE :condition";
@@ -147,15 +192,48 @@ class Credential {
         $this->database = $database;
     }
 
+    /**
+     * Get the host value.
+     *
+     * @return string The host eg. localhost
+     * 
+     */
     public function getHost() {
         return $this->host;
     }
+
+    /**
+     * Get the user value.
+     * 
+     * @return string The user
+     * 
+     * */
+
     public function getUser() {
         return $this->user;
     }
+
+    /**
+     * Get the password value
+     * 
+     * @return string The password
+     * 
+     * 
+     * */
+
     public function getPassword() {
         return $this->password;
     }
+
+    /**
+     * 
+     * Get the database value
+     * 
+     * @return string The database
+     * 
+     * */
+
+
     public function getDatabase() {
         return $this->database;
     }
